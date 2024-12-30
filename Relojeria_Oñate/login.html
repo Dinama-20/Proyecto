@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="login_title">Iniciar Sesión</title>
+    <link rel="stylesheet" href="/Relojeria_Oñate/css/Estilo.css">
+</head>
+<body>
+    <header>
+        <h1 data-lang="login_title">Iniciar Sesión</h1>
+        <nav>
+            <button onclick="location.href='/Relojeria_Oñate/Inicio.html'" data-lang="back_home">Volver a la Página de Inicio</button>
+            <select id="language-selector" onchange="changeLanguage()">
+                <option value="es" selected>Español</option>
+                <option value="en">English</option>
+            </select>
+        </nav>
+    </header>
+    
+    <main>
+        <h2 data-lang="login">Iniciar Sesión</h2>
+        <form id="login-form">
+            <label for="email" data-lang="email">Correo Electrónico:</label>
+            <input type="email" id="email" required>
+
+            <label for="password" data-lang="password">Contraseña:</label>
+            <input type="password" id="password" required>
+
+            <button type="submit" data-lang="submit">Iniciar Sesión</button>
+        </form>
+    </main>
+
+    <script src="/Relojeria_Oñate/script.js"></script>
+</body>
+</html>

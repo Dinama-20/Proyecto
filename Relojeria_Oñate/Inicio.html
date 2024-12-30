@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="title">Relojería y Joyería Oñate</title>
+    <link rel="stylesheet" href="/Relojeria_Oñate/css/Estilo.css">
+</head>
+<body>
+    <header>
+        <h1 data-lang="title">Relojería y Joyería Oñate</h1>
+        <nav>
+            <button onclick="location.href='/Relojeria_Oñate/login.html'" data-lang="login">Iniciar Sesión</button>
+            <button onclick="location.href='/Relojeria_Oñate/Registro.html'" data-lang="register">Registrarse</button>
+            <button id="cart-button" onclick="location.href='/Relojeria_Oñate/Carrito.html'" data-lang="cart">Carrito</button>
+            <select id="language-selector" onchange="changeLanguage()">
+                <option value="es" selected>Español</option>
+                <option value="en">English</option>
+            </select>
+        </nav>
+    </header>
+
+    <main>
+        <section id="productos">
+            <h2 data-lang="products">Nuestros Productos</h2>
+            <div class="producto">
+                <a href="https://www.duward.com/img/example1.jpg" target="_blank">
+                    <img src="https://www.duward.com/img/example1.jpg" alt="Reloj clásico">
+                </a>
+                <h3 data-lang="product1_title">Reloj Clásico</h3>
+                <p data-lang="product1_description">Elegante reloj para ocasiones especiales.</p>
+                <button class="add-to-cart" data-product="Reloj Clásico" data-lang="add_to_cart">Añadir al Carrito</button>
+            </div>
+            <div class="producto">
+                <a href="https://www.duward.com/img/example2.jpg" target="_blank">
+                    <img src="https://www.duward.com/img/example2.jpg" alt="Pulsera de oro">
+                </a>
+                <h3 data-lang="product2_title">Pulsera de Oro</h3>
+                <p data-lang="product2_description">Hermosa pulsera de oro de 18 quilates.</p>
+                <button class="add-to-cart" data-product="Pulsera de Oro" data-lang="add_to_cart">Añadir al Carrito</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p data-lang="footer">2024 Relojería y Joyería Oñate. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="/Relojeria_Oñate/script.js"></script>
+</body>
+</html>

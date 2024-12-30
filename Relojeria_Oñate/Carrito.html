@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="Carrito - Pagar con VISA">Carrito - Pagar con VISA</title>
+    <link rel="stylesheet" href="/Relojeria_Oñate/css/Estilo.css">
+    <!-- Cargar Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <header>
+        <h1 data-lang="Carrito">Carrito</h1>
+        <nav>
+            <button onclick="location.href='Inicio.html'" data-lang="Volver a la Página de Inicio">Volver a la Página de Inicio</button>
+            <select id="language-selector" onchange="changeLanguage()">
+                <option value="es" selected>Español</option>
+                <option value="en">English</option>
+            </select>
+        </nav>
+    </header>
+
+    <main>
+        <h2 data-lang="Tu Carrito">Tu Carrito</h2>
+        <div id="cart-items"></div>
+
+        <!-- Formulario para el pago con tarjeta VISA -->
+        <h3 data-lang="Pagar con tarjeta VISA">Pagar con tarjeta VISA</h3>
+        <form id="payment-form">
+            <div id="card-element">
+                <!-- Stripe element para la tarjeta de crédito -->
+            </div>
+            <button id="submit" data-lang="Pagar">Pagar</button>
+            <div id="error-message"></div>
+        </form>
+    </main>
+
+    <footer>
+        <button id="clear-cart" data-lang="Vaciar Carrito">Vaciar Carrito</button>
+    </footer>
+
+    <script>
+        // Configuración de Stripe
+        const stripe = Stripe('YOUR_STRIPE_PUBLIC_KEY');  // Sustituye con tu clave pública de Stripe
+        const elements = stripe.elements();
+        const card = elements.create('card'); // Elemento de la tarjeta
+        card.mount('#card-element');  // Monta el elemento en el div con id 'card-element'
+
+        const form = document.getElementById('payment-form');
+        const errorMessage = document.getElementById('error-message');
+
+        // Manejo del formulario de pago
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();  // Evita que el formulario se envíe de forma predeterminada
+
+            // Crear un token de Stripe con los datos de la tarjeta
+            const {token, error} = await stripe.createToken(card);
+
+            if (error) {
+                // Muestra el error si ocurre
+                errorMessage.textContent = error.message;
+            } else {
+                // Si el token se genera correctamente, lo envías al backend para procesar el pago
+                fetch('/charge', { // Este endpoint debe estar configurado en tu backend
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token.id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Pago exitoso');
+                        // Vaciar el carrito
+                        localStorage.removeItem('cart');
+                        location.reload();  // Recargar la página
+                    } else {
+                        errorMessage.textContent = 'Hubo un problema con el pago.';
+                    }
+                })
+                .catch(err => {
+                    errorMessage.textContent = 'Hubo un problema con la solicitud al servidor.';
+                });
+            }
+        });
+
+        // Cambiar el idioma de la página
+        function changeLanguage() {
+            const language = document.getElementById('language-selector').value;
+            localStorage.setItem('language', language); // Guardar el idioma seleccionado
+
+            const elements = document.querySelectorAll('[data-lang]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[language][key]) {
+                    element.textContent = translations[language][key];
+                }
+            });
+        }
+
+        // Obtener y cargar el idioma guardado en localStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLanguage = localStorage.getItem('language') || 'es'; // Idioma por defecto 'es'
+            document.getElementById('language-selector').value = savedLanguage;
+            changeLanguage(); // Cambiar el idioma al cargar la página
+        });
+    </script>
+
+    <script src="script.js"></script>  <!-- Asegúrate de que este script esté enlazado -->
+</body>
+</html>
